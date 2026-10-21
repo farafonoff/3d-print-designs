@@ -1,9 +1,10 @@
 // Lock-on bicycle grip, sleeve only (print in TPU).
-// Your metal lock rings (clamps) are reused. MEASURE and adjust the
-// parameters marked [MEASURE] before printing.
+// Reuses the metal lock rings from the original grip: 22.2 mm bar bore, a ring
+// seat with two straight-sided lips at each end, deep small hex pockets between
+// them, and engraved Claude / OpenAI logos on smooth pads.
+// Parameters marked [MEASURE] still need checking against the real part.
 //
-// Orientation: grip axis along Z, printed standing up (open end down is
-// fine: no overhangs except the knurl, which is shallow).
+// Print standing up (grip axis along Z). test_grip.scad prints just one end.
 
 $fn = 96;
 
