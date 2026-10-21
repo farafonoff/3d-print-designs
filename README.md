@@ -10,6 +10,7 @@ Each folder is one design. Open the `.scad` file in OpenSCAD, tweak the paramete
 | --- | --- | --- | --- |
 | [`bikegrips/`](bikegrips) | Lock-on bicycle grips (sleeve only, reuses the metal lock rings), hex-pocket pattern, engraved logos | TPU | <img src="bikegrips/previews/lockon_grip.png" width="160"> |
 | [`kindlecase/`](kindlecase) | Kindle shell and test ring | PETG | <img src="kindlecase/previews/kindle_shell.png" width="160"> |
+| [`bookmarks/`](bookmarks) | Image-based openwork bookmarks (cat, fish): artwork traced to a plate with through-cuts | any | <img src="bookmarks/previews/fish_bookmark.png" width="160"> |
 
 Each folder's README is generated from the `.scad` header comments plus a render (see Previews).
 
@@ -21,7 +22,7 @@ Each folder's README is generated from the `.scad` header comments plus a render
 
 ## Previews
 
-Each project folder has its own `previews.sh`. It renders every `.scad` except `test*.scad` to `previews/<name>.png` and refreshes the generated section of that folder's `README.md` (the leading `//` comment of each `.scad` becomes its description):
+Each project folder has its own `previews.sh`. It renders every `.scad` except `test*.scad` and `lib*.scad` to `previews/<name>.png` and refreshes the generated section of that folder's `README.md` (the leading `//` comment of each `.scad` becomes its description):
 
 ```
 cd bikegrips && ./previews.sh          # PNGs

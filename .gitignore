@@ -6,3 +6,6 @@
 
 # Editor / tool state
 .claude/
+
+# Bookmark meshes come from per-pixel height maps and are huge (200+ MB); regenerate with ./previews.sh --stl
+bookmarks/*.stl

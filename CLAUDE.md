@@ -5,7 +5,7 @@ Parametric 3D-printable designs in OpenSCAD (the user may write "openscada"). On
 ## Conventions
 - Parameters live at the top of the main `.scad`, grouped in `// ---------- Section ----------` blocks. Mark measurements the user still has to verify with `[MEASURE]`.
 - `test_*.scad` files `use <main.scad>` and intersect `grip()`-style modules with a box to cut a small test piece. They must not override parameters; tuning happens only in the main file.
-- Each `.scad` starts with a leading `//` comment block describing it; keep it current, `previews.sh` copies it into the folder README. Each project folder has `previews.sh` (renders every `.scad` except `test*.scad` to `previews/` and refreshes the generated section of the folder's `README.md`). The two scripts are identical copies: change both. `*.gcode` is git-ignored.
+- Each `.scad` starts with a leading `//` comment block describing it; keep it current, `previews.sh` copies it into the folder README. Each project folder has `previews.sh` (renders every `.scad` except `test*.scad` and `lib*.scad` (helper libraries) to `previews/` and refreshes the generated section of the folder's `README.md`). The `previews.sh` scripts are identical copies: change all of them. `*.gcode` is git-ignored.
 - The user checks designs visually in OpenSCAD. Don't render or open previews unless asked, except to validate a script or fix an error they pasted.
 - Paste of OpenSCAD console output usually means "fix this". "No top level geometry" means the final module call is missing.
 - Commit or push only when asked. Commit trailer: see the session attribution reminder.
@@ -27,3 +27,7 @@ Logos: Claude and OpenAI marks (simple-icons SVGs in `logos/`) are engraved into
 
 ## kindlecase
 Kindle shell and a test ring, printed in PETG (Elegoo) on an Ender 3 Plus. Sliced gcode is kept locally but not committed.
+
+## bookmarks (image-based, for the user's wife, printed in PLA)
+Sources are black/white artwork in `source/` (`cat_pattern.jpeg`, `fish_pattern.jpeg`); white = material, black = cut through. `./prep_images.sh` (ImageMagick) thresholds, crops and downsizes them into `build/<name>.png` (mask) and `build/<name>_h.png` (height profile with a rounded `EDGE_R` = 0.3 mm fillet ramp from the blurred mask); both are committed so previews work. The size table at the bottom of `prep_images.sh` (h, t per bookmark) must match `h` and `t` in `<name>_bookmark.scad`.
+`lib_bookmark.scad`: `bookmark()` builds the top half with `surface()` from the `_h` map, mirrors it for the bottom (rounded edges in cross-section on both faces), intersects with an extrusion of the artwork footprint traced from the same map (otherwise black pixels leave a paper-thin film), and scales everything to w x h x t. `bookmark_flat()` is the plain 2D extrusion with optional `smooth` corner rounding. Verified with a cross-section slice. Thin lace lines are about 0.7 mm at 36 mm width; PLA is brittle there. The fillet is only ~1.5 px wide at PX_H=900, so it reads as a small chamfer; raise `PX_H` for a rounder one (slower render). No potrace installed; the user is fine with the `surface()` route and with the anti-aliasing (greyscale) interpretation.
