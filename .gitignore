@@ -1,0 +1,8 @@
+.DS_Store
+
+# Sliced output: printer/filament specific, easy to regenerate
+*.gcode
+*.gcode.3mf
+
+# Editor / tool state
+.claude/
