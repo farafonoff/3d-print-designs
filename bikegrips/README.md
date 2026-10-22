@@ -7,8 +7,9 @@
 ```text
 Lock-on bicycle grip, sleeve only (print in TPU).
 Reuses the metal lock rings from the original grip: 22.2 mm bar bore, a ring
-seat with two straight-sided lips at each end, deep small hex pockets between
-them, and engraved Claude / OpenAI logos on smooth pads.
+seat with two straight-sided lips at each end, a barrel-shaped body (thicker in
+the middle) covered in deep hex pockets, and Claude / OpenAI logos engraved into
+the pattern with a solid border.
 Parameters marked [MEASURE] still need checking against the real part.
 
 Print standing up (grip axis along Z). test_grip.scad prints just one end.
