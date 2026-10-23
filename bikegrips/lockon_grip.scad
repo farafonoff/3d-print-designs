@@ -15,9 +15,11 @@ fit_clear    = 0;      // bore = bar_d + fit_clear = 22.2. Original measured 22.
 
 // ---------- Grip body ----------
 grip_len     = 130;    // [MEASURE] overall length of old rubber
-body_d       = 29;     // outer diameter of the thick part at the ends of the pattern, top of the ridges (caliper)
-bulge        = 1.0;    // extra radius at the middle of the grip: barrel shape, 0 = straight cylinder
-                       // (1.0 -> 31 mm in the middle, smooth sine profile, ends stay at body_d)
+body_d       = 33;     // outer diameter at the ends of the pattern, top of the ridges (fat grip; the original measured 29)
+bulge        = 0.5;    // extra radius at the middle of the grip: barrel shape, 0 = straight cylinder
+                       // (0.5 -> 34 mm in the middle, smooth sine profile, ends stay at body_d)
+ring_od      = 33;     // outer diameter of the metal ring (caliper): the rubber flares out to meet it
+flare_len    = 3;      // length of the angled connection from the body (body_d) out to ring_od (mm), 0 = square shoulder
 wall_min     = 2.0;    // minimum rubber wall (measured at the bottom of the pockets)
 
 // ---------- Clamp seats (where the metal rings sit) ----------
@@ -41,7 +43,8 @@ end_cap_wall  = 3;
 // ---------- Hex "lizard skin" pattern (hex pockets, raised ridges) ----------
 hex_r        = 2.25;   // circumradius of one hex cell (mm); ~3.9 mm across flats
 ridge_w      = 0.88;   // width of the ridge between pockets at the surface
-pat_depth    = 1.2;    // pocket depth
+pat_depth    = 1.2;    // pocket depth at the ends of the pattern; the pocket floors lie on a straight cylinder
+//                        (core_d), so the pockets get deeper where the barrel swells
 pocket_floor = 0.85;   // keeps the wall slope ~0.3 mm over the depth, as with the smaller cells
 //                        (floor size relative to the opening; 1 = straight walls)
 
@@ -60,6 +63,7 @@ logo_depth    = 0.8 * pat_depth;   // engraving depth below the ridge tops (80% 
 logo_border   = 1.2;   // width of the solid frame around the logo lines (fills the hex pockets)
 
 // ---------- Derived ----------
+core_d    = body_d - 2 * pat_depth;   // diameter of the pocket floors: the fixed core under the pattern
 bore_d    = bar_d + fit_clear;
 knurl_len = grip_len - (inboard_ring ? ring_seat_len : 0)
                      - (outboard_ring ? ring_seat_len : 0);
@@ -70,11 +74,15 @@ knurl_z1  = grip_len - (outboard_ring ? ring_seat_len : 0);
 function max2(a, b) = a > b ? a : b;
 
 // Outer radius of the pattern at global height z (barrel profile, clamped to the pattern span)
-function body_r(z) = body_d / 2 + bulge * sin(180 * min(max(z - knurl_z0, 0), knurl_len) / knurl_len);
+// plus a linear flare out to ring_od/2 at each ring end (only where a ring is fitted)
+function flare(d) = flare_len > 0 && ring_od > body_d ? max(0, 1 - d / flare_len) * max(0, ring_od / 2 - body_d / 2) : 0;
+function body_r(z) = body_d / 2 + bulge * sin(180 * min(max(z - knurl_z0, 0), knurl_len) / knurl_len)
+    + (inboard_ring  ? flare(z - knurl_z0) : 0)
+    + (outboard_ring ? flare(knurl_z1 - z) : 0);
 
 // Solid of revolution with the barrel profile over the pattern span, offset radially by off (mm)
 module envelope(off = 0) {
-    steps = 90;
+    steps = 240;
     rotate_extrude($fn = 96)
         polygon(concat(
             [[0, knurl_z0 - 0.01]],
@@ -90,18 +98,23 @@ assert(ring_seat_d/2 - bore_d/2 >= 1.5, "Ring seat wall too thin");
 module knurled() {
     pitch  = sqrt(3) * hex_r;
     n      = round(PI * body_d / pitch);          // cells per ring (same at every height)
-    rows   = ceil(knurl_len / (1.5 * hex_r)) + 1;
-    h      = pat_depth + 0.5;                       // pocket tool runs past the surface
+    fl     = ring_od > body_d ? flare_len : 0;      // no flare when the body is already as wide as the ring
+    f0     = inboard_ring  ? fl : 0;         // the flare stays solid, the pattern starts after it
+    f1     = outboard_ring ? fl : 0;
+    rows   = ceil((knurl_len - f0 - f1) / (1.5 * hex_r)) + 1;
     rt     = hex_r - ridge_w / 2;                   // opening radius at the surface
-    rb     = rt * pocket_floor;                     // floor radius
-    s      = 1 + (rt / rb - 1) * h / pat_depth;     // so the opening is rt at the surface
     difference() {
         envelope();
         for (k = [0 : rows - 1]) {
-            zc = knurl_z0 + hex_r + k * 1.5 * hex_r;   // first row starts with a whole cell
-            for (j = [0 : n - 1])
+            zc = knurl_z0 + f0 + hex_r + k * 1.5 * hex_r;   // first row starts with a whole cell
+            d  = body_r(zc) - core_d / 2;                   // pocket depth here
+            h  = d + 0.5;                                   // pocket tool runs past the surface
+            rb = rt * (1 - (1 - pocket_floor) * d / pat_depth);   // floor radius: wall slope stays the same at any depth
+            s  = 1 + (rt / rb - 1) * h / d;                 // so the opening is rt at the surface
+            if (zc + hex_r <= knurl_z1 - f1 + 0.01)
+              for (j = [0 : n - 1])
                 rotate([0, 0, (j + (k % 2) * 0.5) * 360 / n])
-                    translate([body_r(zc) - pat_depth, 0, zc])
+                    translate([core_d / 2, 0, zc])
                         rotate([0, 90, 0])
                             linear_extrude(height = h, scale = s)
                                 circle(r = rb, $fn = 6);
