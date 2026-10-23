@@ -12,3 +12,6 @@ bookmarks/*.stl
 
 # Slicer project files (printer/filament specific)
 *.3mf
+
+# Door cable guide meshes are huge (15-50 MB, per-segment bends); regenerate with ./previews.sh --stl
+doorcable/*.stl

@@ -1,0 +1,53 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "frontdoor": {
+            "$fn": "64",
+            "back_r": "6",
+            "back_t": "1",
+            "bend_b_mid": "60",
+            "cable_d": "5",
+            "edge_r": "0.40000000000000002",
+            "gap_h": "7",
+            "leg_a": "60",
+            "leg_b": "60",
+            "lip_t": "0.80000000000000004",
+            "mid_len": "75",
+            "open_inside": "false",
+            "plate_legs": "true",
+            "plate_mid": "true",
+            "plate_r": "3",
+            "plate_t": "1.8",
+            "slot_open": "4.5",
+            "tape_t": "1",
+            "tape_w": "20",
+            "tip_r": "1.5",
+            "min_width": "155"
+        },
+        "frontdoor_08": {
+            "$fn": "64",
+            "back_r": "6",
+            "back_t": "1",
+            "bend_b_mid": "60",
+            "cable_d": "5",
+            "edge_r": "0",
+            "gap_h": "7",
+            "leg_a": "60",
+            "leg_b": "60",
+            "lip_t": "1",
+            "mid_len": "75",
+            "open_inside": "false",
+            "plate_legs": "true",
+            "plate_mid": "true",
+            "plate_r": "3",
+            "plate_t": "1.6",
+            "slot_open": "4.5",
+            "tape_t": "0.9",
+            "tape_w": "20",
+            "tip_r": "1.5",
+            "strip_h": "6.4",
+            "floor_t": "0.8",
+            "min_width": "155"
+        }
+    }
+}
