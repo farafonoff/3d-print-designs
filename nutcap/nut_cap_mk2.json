@@ -1,0 +1,23 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "$fn": "96",
+            "body_h": "20",
+            "ceil_dome": "1",
+            "edge_r": "2",
+            "fit": "0.10000000000000001",
+            "hex_rot": "0",
+            "logo_bolden": "0",
+            "logo_height": "0.99999999999999989",
+            "logo_letter": "M",
+            "logo_sink": "3",
+            "logo_w": "22",
+            "max_od": "30",
+            "nut_af": "18",
+            "nut_h": "16",
+            "skirt_h": "3",
+            "skirt_out": "1.5"
+        }
+    }
+}

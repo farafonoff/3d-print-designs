@@ -1,0 +1,21 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "myfont": {
+            "$fn": "96",
+            "body_h": "20",
+            "edge_r": "3",
+            "fit": "0.10000000000000001",
+            "font": "style=Bold",
+            "hex_rot": "0",
+            "label": "",
+            "nut_af": "18",
+            "nut_h": "16",
+            "panel_h": "1.3999999999999999",
+            "panel_w": "8",
+            "text_bolden": "0.20000000000000001",
+            "text_height": "1",
+            "text_size": "3.2000000000000002"
+        }
+    }
+}
