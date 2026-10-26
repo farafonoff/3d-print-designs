@@ -1,0 +1,21 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "$fn": "64",
+            "bend_r": "6",
+            "dish_back_clear": "1",
+            "dish_back_top": "39.75",
+            "dish_bottom_half": "30.199999999999999",
+            "dish_file": "Soap_Dish.stl",
+            "hook_pitch": "60",
+            "hook_w": "16",
+            "layout": "hook",
+            "pipe_clear": "0.10000000000000001",
+            "pipe_d": "7",
+            "stem_len": "60",
+            "strip_t": "3",
+            "wrap_end": "200"
+        }
+    }
+}
